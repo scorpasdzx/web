@@ -1,16 +1,18 @@
-name: My workflow
+name: Deploy Website
 
-on: push
+on: [push]
 
 jobs:
-  my-job:
-    name: My job
+  build:
     runs-on: ubuntu-latest
+    name: Deploying to surge
     steps:
-      - name: Deploy to foo-bar.surge.sh
-        uses: dswistowski/surge-sh-action@v1
+      - uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2-beta
         with:
-          domain: 'scorpasdzx.surge.sh'
-          project: '.'
-          login: ${{ secrets.surge_login }}
-          token: ${{ secrets.surge_token }}
+          node-version: 12
+      - name: Install Surge
+        run: npm install -g surge
+      - name: Run surge
+        run: surge ./ scorpasdzx.surge.sh --token ${{ secrets.surge_token }}
