@@ -1,0 +1,15 @@
+name: My workflow
+
+on: push
+
+jobs:
+  my-job:
+    name: Publish the static website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to scorpasdzx.surge.sh
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: 'foo-bar.surge.sh'
+          project: '.'
+          token: ${{ secrets.surge_token }}
